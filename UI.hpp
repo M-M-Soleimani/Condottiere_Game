@@ -17,6 +17,7 @@ public:
         std::cin >> choice;
         return choice;
     }
+    void Display_Help_Game();
 };
 
 #endif
