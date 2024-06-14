@@ -1,0 +1,38 @@
+place of war
+Each game round starts with choosing a battle location. In this way, the player who has the battle badge chooses an empty province(that is, a province without any badge on it) and places the battle badge on it and designates it as the battleground province(at the beginning of the game, the battleground It can be any province.
+
+playing cards
+For this, the player must choose a card from his hand and place it in front of him. The cards that the player plays are placed next to each other and form the player's army line. There are two types of cards in the game: soldier cards and special cards.
+ Soldier cards make up your army and are marked with a yellow border and a number. Each soldier card played increases the strength of the player's army by the number on the card. At the end of each battle, if the sum of the numbers of your cards is more than the others, you will win that province.
+Special cards affect the course of the battle and are marked with a purple border. For example, they end the war suddenly, or burn other people's cards. To explain each of these cards, use the command (the desired card help).
+Tip: Each player's army line must be visible to other players!
+
+War
+Then the war begins. At this stage, the player who has chosen the battle location starts the game, and after that the turn continues clockwise. Each player in his turn must either play cards or pass his turn.
+
+pass
+If a player does not want to play a card or has no more cards to play, he must pass. The player who passed cannot play cards until the end of that battle and his turn is rejected. But the cards that were played before that remain and their value is counted at the end of the battle. It is even possible that the player who passed has the strongest army at the end of the war and wins the war.
+Note: If all players except one have passed, that player can play cards as long as he wants and then pass whenever he wants or if he has no more cards.
+When all players pass, the battle ends and it's time to decide the winner.
+
+end of war
+Power and soldiers
+When you play a card, it is better to quickly add up the numbers of your army queue and then announce it out loud so that the other players will be informed.
+There are 58 soldier cards in the game: 10 cards with the number 1 and 8 cards of each of the numbers 2, 3, 4, 5, 6 and 10.
+Determine the winner
+After the end of the battle, the players compare the numbers of their army cards and the player with the highest army number wins the battle. The winning player removes the battle emblem from the contested province and replaces it with one of his own emblems to show that he owns that province. Also, this player will choose the location of the next battle. If the strength of several players' armies are equal, none of them will win the war. In this case, the last player to pass determines the location of the next battle.
+
+Rejuvenation
+After the winner of the battle is determined, all the played cards of each player are thrown into the burnt pile. Also, if the spring or winter card is on the game map, it will burn.
+Then do the following steps in order:
+1. Any player who has no soldier cards in hand can burn their entire hand.
+2. If only one player has cards left in his hand, he must burn his entire hand, even if he still has pawns.
+3. If all the players are without cards, the cards are dealt again. For this, discard all the remaining cards and burned cards and give each player 10 cards, also each player gets one more card for each province he has taken over, for example, a player who has 2 provinces gets 12 cards. take
+Note: If case 3 has not happened, the players who have an empty hand will not receive a card and must play the next battle without cards and be the only spectators! So always be aware of the number of your own and others' cards.
+
+Determining the location of the next battle
+After completing the above steps, the winning player determines the location of the next battle and the game continues from the battle stage (maybe another player except the winning player determines the location of the next battle.
+
+end game
+Whenever a player has 3 neighboring provinces or 5 provinces in the whole map (has placed his token on it), the game ends and that player wins the game.
+In very rare situations, the game may reach a stage where there are no empty provinces left for war, in this case the game is over and the player with the most provinces wins. In case of a tie, the tied players win together.
