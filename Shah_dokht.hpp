@@ -5,8 +5,10 @@
 class Shah_dokht : public Card
 {
 public:
-    Shah_dokht();   // Constructor to create an instance of class Shah_dokht
-    virtual bool perform_Action(std::vector<Card *> &) override;    // An overridden function for special card action
+    Shah_dokht();                                                       // Constructor to create an instance of class Shah_dokht
+    virtual std::string perform_Action() override;                      // Override and overloaded function to apply card abilities to the game ; in this case, no special feature is applied 
+    virtual std::string perform_Action(Player &) override;              // To handle the absence of errors due to overload and override
+    virtual std::string perform_Action(std::vector<Card *> &) override; // To handle the absence of errors due to overload and override
 };
 
 #endif
