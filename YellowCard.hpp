@@ -6,8 +6,10 @@
 class YellowCard : public Card
 {
 public:
-    YellowCard(std::string, int);   // Constructor to create an instance of the yellow card class
-    virtual bool perform_Action(std::vector<Card *> &) override;    // An overridden class for special card functions
+    YellowCard(std::string, int);                                       // Constructor to create an instance of the yellow card class with parameter
+    virtual std::string perform_Action() override;                      // Override and overloaded function to apply card abilities to the game
+    virtual std::string perform_Action(Player &) override;              // To handle the absence of errors due to overload and override
+    virtual std::string perform_Action(std::vector<Card *> &) override; // To handle the absence of errors due to overload and override
 };
 
 #endif
