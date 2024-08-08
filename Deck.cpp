@@ -51,64 +51,94 @@ void Deck::Deck_Initializer()
     std::shared_ptr<Card>temp = nullptr;
     for (size_t i = 0; i < 10; ++i)
     {
-        cards.push_back(std::make_shared <YellowCard> ("1" , 1));
+        temp = std::make_shared <YellowCard> ("1" , 1);
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        cards.push_back(std::make_shared <YellowCard> ("2" , 2));
+        temp = std::make_shared <YellowCard> ("2" , 2);
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        cards.push_back(std::make_shared <YellowCard> ("3" , 3));
+        temp = std::make_shared <YellowCard> ("3" , 3);
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        cards.push_back(std::make_shared <YellowCard> ("4" , 4));
+        temp = std::make_shared <YellowCard> ("4" , 4);
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        cards.push_back(std::make_shared <YellowCard> ("5" , 5));
+        temp = std::make_shared <YellowCard> ("5" , 5);
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        cards.push_back(std::make_shared <YellowCard> ("6" , 6));
+        temp = std::make_shared <YellowCard> ("6" , 6);
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        cards.push_back(std::make_shared <YellowCard> ("10" , 10));
+        temp = std::make_shared <YellowCard> ("10" , 10);
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
 
     for (size_t i = 0; i < 16; ++i)
     {
-        cards.push_back(std::make_shared <Matarsak>());
+        temp = std::make_shared <Matarsak>();
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 3; ++i)
     {
-        cards.push_back(std::make_shared <Bahar>());
+        temp = std::make_shared <Bahar>();
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 3; ++i)
     {
-        cards.push_back(std::make_shared <Zemestan>());
+        temp = std::make_shared <Zemestan>();
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 3; ++i)
     {
-        cards.push_back(std::make_shared <Shah_dokht>());
+        temp = std::make_shared <Shah_dokht>();
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 6; ++i)
     {
-        cards.push_back(std::make_shared <Tabl_zan>());
+        temp = std::make_shared <Tabl_zan>();
+        cards.push_back(temp);
     }
+    playing_cards_list.push_back(temp);
 
     Shuffle(); // Shuffle the deck of cards to normalize the order of the cards
+}
+
+// Return playing cards list
+std::vector<std::shared_ptr<Card>> Deck::Get_Playing_Cards_List()
+{
+    return playing_cards_list;
 }
