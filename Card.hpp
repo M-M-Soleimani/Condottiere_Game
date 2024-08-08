@@ -3,8 +3,9 @@
 
 #include <string>
 #include <vector>
-
+#include <memory>
 class Player; // Forward declare
+class Game;   // Forward declare
 
 class Card
 {
@@ -23,8 +24,8 @@ public:
     void Set_Score(int);                        // Set the value of the score with the input parameter
     // Override and overload functions to implement the capabilities of each card
     virtual std::string perform_Action() = 0;
-    virtual std::string perform_Action(Player &) = 0;
-    virtual std::string perform_Action(std::vector<Card *> &) = 0;
+    virtual std::string perform_Action(std::shared_ptr<Player> &) = 0;
+    virtual std::string perform_Action(std::vector<std::shared_ptr<Card>> &) = 0;
 
 private:
     std::string type;

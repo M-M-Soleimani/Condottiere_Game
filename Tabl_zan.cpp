@@ -7,10 +7,10 @@ Tabl_zan::Tabl_zan()
     : Card::Card("tabl_zan", 0, "When a player plays the female drummer, the total number of his soldiers (yellow) is doubled.\nFor example, a player who has a 2nd soldier and a 6th soldier in his army ranks with the game\nDrumming changes the total number of his army from 8 to 16.\ntip:\nOnly one Drummer card affects each player's army per battle.\nMore than one female drum can be played, but it has no effect.\n", Color::Purple) {}
 
 // An overridden and overloaded function to duplicate the value of all cards played by the user
-std::string Tabl_zan::perform_Action(Player &Player)
+std::string Tabl_zan::perform_Action(std::shared_ptr<Player> &Player)
 {
-    std::vector<Card *> &played_Card = Player.Get_played_crads();
-    for (Card *card : played_Card)
+    std::vector<std::shared_ptr<Card>> &played_Card = Player->Get_played_crads();
+    for (std::shared_ptr<Card> card : played_Card)
     {
         if (card->Get_Color() == Card::Color::Yellow)
         {
@@ -18,11 +18,17 @@ std::string Tabl_zan::perform_Action(Player &Player)
             card->Set_Score(new_score);
         }
     }
-    return Get_Type() + " played";
+    return Get_Type();
 }
 
 // To handle the absence of errors due to overload and override
-std::string Tabl_zan::perform_Action(std::vector<Card *> &playerCard) {}
+std::string Tabl_zan::perform_Action(std::vector<std::shared_ptr<Card>> &playerCard)
+{
+    return NULL;
+}
 
 // To handle the absence of errors due to overload and override
-std::string Tabl_zan::perform_Action() {}
+std::string Tabl_zan::perform_Action()
+{
+    return NULL;
+}
