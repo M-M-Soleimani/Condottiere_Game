@@ -17,28 +17,22 @@ Deck::Deck()
     Deck_Initializer();
 }
 
-// Distractor of Deck class
-Deck::~Deck()
-{
-    for (Card *card : cards)
-    {
-        delete card;
-    }
-}
+// Default distractor of Deck class
+Deck::~Deck() = default;
 
 // Add card to cards vector
-void Deck::Add_Card(Card *card)
+void Deck::Add_Card(std::shared_ptr<Card>card)
 {
     cards.push_back(card);
 }
 
 // Draw card
-Card *Deck::Draw_Card()
+std::shared_ptr<Card>Deck::Draw_Card()
 {
     if (cards.empty())
         return nullptr;
 
-    Card *drawn_card = cards.back();
+    std::shared_ptr<Card>drawn_card = cards.back();
     cards.pop_back();
     return drawn_card;
 }
@@ -54,90 +48,67 @@ void Deck::Shuffle()
 void Deck::Deck_Initializer()
 {
     // Creating a deck of cards as a vector of pointers that point to the heap space
-    Card *temp = nullptr;
+    std::shared_ptr<Card>temp = nullptr;
     for (size_t i = 0; i < 10; ++i)
     {
-        temp = new YellowCard("1", 1);
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <YellowCard> ("1" , 1));
     }
-    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        temp = new YellowCard("2", 2);
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <YellowCard> ("2" , 2));
     }
-    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        temp = new YellowCard("3", 3);
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <YellowCard> ("3" , 3));
     }
-    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        temp = new YellowCard("4", 4);
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <YellowCard> ("4" , 4));
     }
-    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        temp = new YellowCard("5", 5);
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <YellowCard> ("5" , 5));
     }
-    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        temp = new YellowCard("6", 6);
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <YellowCard> ("6" , 6));
     }
-    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 8; ++i)
     {
-        temp = new YellowCard("10", 10);
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <YellowCard> ("10" , 10));
     }
-    playing_cards_list.push_back(temp);
 
 
     for (size_t i = 0; i < 16; ++i)
     {
-        temp = new Matarsak;
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <Matarsak>());
     }
-    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 3; ++i)
     {
-        temp = new Bahar;
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <Bahar>());
     }
-    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 3; ++i)
     {
-        temp = new Zemestan;
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <Zemestan>());
     }
-    playing_cards_list.push_back(temp);
 
     for (size_t i = 0; i < 3; ++i)
     {
-        temp = new Shah_dokht;
-        cards.push_back(temp);
+        cards.push_back(std::make_shared <Shah_dokht>());
     }
-    playing_cards_list.push_back(temp);
+
+    for (size_t i = 0; i < 6; ++i)
+    {
+        cards.push_back(std::make_shared <Tabl_zan>());
+    }
 
     Shuffle(); // Shuffle the deck of cards to normalize the order of the cards
-}
-
-// Return playing cards list
-std::vector<Card*> Deck::Get_Playing_Cards_List()
-{
-    return playing_cards_list;
 }
