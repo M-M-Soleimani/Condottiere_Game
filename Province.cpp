@@ -13,7 +13,7 @@ Province::Province(std::string name) : name(name), owner(nullptr) {}
 Province::~Province() = default;
 
 // Set the owner of the province
-void Province::Set_Owner(Player *player)
+void Province::Set_Owner(std::shared_ptr<Player> player)
 {
     owner = player;
 }
@@ -25,7 +25,7 @@ void Province::Set_Adjacent_Provinces(const std::set<int> &adjacent_provinces)
 }
 
 // Returning the owner of the province
-Player *Province::Get_Owner()
+std::shared_ptr<Player> Province::Get_Owner()
 {
     return owner;
 }
@@ -34,4 +34,9 @@ Player *Province::Get_Owner()
 std::set<int> Province::Get_Adjacent_Provinces()
 {
     return adjacent_provinces;
+}
+
+std::string Province::Get_Name()
+{
+    return name;
 }
