@@ -18,7 +18,7 @@ std::string YellowCard::perform_Action(std::shared_ptr<Player> &player)
 }
 
 // To handle the absence of errors due to overload and override
-std::string YellowCard::perform_Action(std::vector<std::shared_ptr<Card>> &allCards)
+std::string YellowCard::perform_Action(std::vector<std::shared_ptr<Player>> &players)
 {
     return NULL;
 }

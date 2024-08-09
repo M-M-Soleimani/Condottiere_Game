@@ -17,7 +17,7 @@ std::string Shah_dokht::perform_Action(std::shared_ptr<Player> &player)
 }
 
 // To handle the absence of errors due to overload and override
-std::string Shah_dokht::perform_Action(std::vector<std::shared_ptr<Card>> &player_cards)
+std::string Shah_dokht::perform_Action(std::vector<std::shared_ptr<Player>> &players)
 {
     return NULL;
 }

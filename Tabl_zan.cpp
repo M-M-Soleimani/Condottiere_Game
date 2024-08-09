@@ -9,8 +9,8 @@ Tabl_zan::Tabl_zan()
 // An overridden and overloaded function to duplicate the value of all cards played by the user
 std::string Tabl_zan::perform_Action(std::shared_ptr<Player> &Player)
 {
-    std::vector<std::shared_ptr<Card>> &played_Card = Player->Get_played_crads();
-    for (std::shared_ptr<Card> card : played_Card)
+
+    for (std::shared_ptr<Card>& card : Player->Get_played_crads())
     {
         if (card->Get_Color() == Card::Color::Yellow)
         {
@@ -22,7 +22,7 @@ std::string Tabl_zan::perform_Action(std::shared_ptr<Player> &Player)
 }
 
 // To handle the absence of errors due to overload and override
-std::string Tabl_zan::perform_Action(std::vector<std::shared_ptr<Card>> &playerCard)
+std::string Tabl_zan::perform_Action(std::vector<std::shared_ptr<Player>> &players)
 {
     return NULL;
 }

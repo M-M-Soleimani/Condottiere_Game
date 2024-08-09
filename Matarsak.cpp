@@ -31,7 +31,7 @@ std::string Matarsak::perform_Action(std::shared_ptr<Player> &player)
 }
 
 // To handle the absence of errors due to overload and override
-std::string Matarsak::perform_Action(std::vector<std::shared_ptr<Card>> &playerCard)
+std::string Matarsak::perform_Action(std::vector<std::shared_ptr<Player>> &players)
 {
     return NULL;
 }
