@@ -25,14 +25,18 @@ public:
     {
         std::cout << message;
     }
-    void Display_Game_Help();                                         // Display description to help the player
-    void Clear_Window();                                              // Clear the terminal
-    std::string Get_Line();                                           // Get a line of string from the user
-    char Get_Ch();                                                    // Get a character from the user
-    int Get_Number_Of_Player();                                       // Get the number of players from the user, which must be more than 3 and less than 6
-    void Get_Player_Informations(std::vector<Player> &, const int &); // Get the information of each player
-    void Display_Hand(Player &);                                      // display hand of player
-    void Display_Played_Cards(Player &);                              // Display played cards of player
+    void Display_Game_Help();                                                                                                                                           // Display description to help the player
+    void Clear_Window();                                                                                                                                                // Clear the terminal
+    std::string Get_Line();                                                                                                                                             // Get a line of string from the user
+    char Get_Ch();                                                                                                                                                      // Get a character from the user
+    int Get_Number_Of_Player();                                                                                                                                         // Get the number of players from the user, which must be more than 3 and less than 6
+    void Get_Player_Informations(std::vector<std::shared_ptr<Player>> &, const int &);                                                                                  // Get the information of each player
+    void Display_Hand(std::shared_ptr<Player> &);                                                                                                                       // display hand of player
+    void Display_Played_Cards(std::shared_ptr<Player> &);                                                                                                               // Display played cards of player
+    void Show_Game_Informations(std::vector<std::shared_ptr<Player>> &, std::vector<std::shared_ptr<Player>> &, const int &, const std::string &, const std::string &); // Show game information (played cards, conquered provinces, season and battlefield)
+    void Display_Acquired_Provinces(std::shared_ptr<Player> &);                                                                                                         // Show conquered provinces
+    std::string Get_Line_Tolower();                                                                                                                                     // get the line and converting uppercase letters to lowercase
+    std::string Get_Line_Toupper();                                                                                                                                     // get the line and converting lowercase letters to uppercase
 };
 
 #endif

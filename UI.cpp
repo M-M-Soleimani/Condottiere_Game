@@ -5,6 +5,8 @@
 #include <windows.h>
 #include <conio.h>
 #include "Player.hpp"
+#include "Map.hpp"
+#include <algorithm>
 
 #define Red "\u001b[31m"
 #define Reset "\u001b[0m"
@@ -84,7 +86,7 @@ int UI::Get_Number_Of_Player()
 }
 
 // Get the information of each player
-void UI::Get_Player_Informations(std::vector<Player> &players, const int &number_of_players)
+void UI::Get_Player_Informations(std::vector<std::shared_ptr<Player>> &players, const int &number_of_players)
 {
     // It takes name, age and input color from each user
     for (size_t i = 0; i < number_of_players; ++i)
@@ -102,19 +104,20 @@ void UI::Get_Player_Informations(std::vector<Player> &players, const int &number
         Display_Message<std::string>("Enter your color : ");
         std::string color = Get_Line();
 
-        players.push_back(Player(name, age, color));
+        std::shared_ptr<Player> temp = std::make_shared<Player>(name, age, color);
+        players.push_back(temp);
         Clear_Window();
     }
 }
 
 // Display hand of player
-void UI::Display_Hand(Player &player)
+void UI::Display_Hand(std::shared_ptr<Player> &player)
 {
-    Display_Message<std::string>(player.Get_Name());
+    Display_Message<std::string>(player->Get_Name());
     Display_Message<std::string>("'s hand : ");
     // It browse the vector of player cards and displays them in a special format
     bool is_first = true;
-    for (Card const *const card : player.Get_hand())
+    for (std::shared_ptr<Card> card : player->Get_hand())
     {
         if (!is_first)
             Display_Message<std::string>(" - ");
@@ -125,13 +128,13 @@ void UI::Display_Hand(Player &player)
 }
 
 // Display played cards of player
-void UI::Display_Played_Cards(Player &player)
+void UI::Display_Played_Cards(std::shared_ptr<Player> &player)
 {
-    Display_Message<std::string>(player.Get_Name());
+    Display_Message<std::string>(player->Get_Name());
     Display_Message<std::string>("'s played cards : ");
     // It browse the vector of player cards that played in game and displays them in a special format
     bool is_first = true;
-    for (Card const *const card : player.Get_played_crads())
+    for (std::shared_ptr<Card> card : player->Get_played_crads())
     {
         if (!is_first)
             Display_Message<std::string>(" - ");
@@ -139,4 +142,65 @@ void UI::Display_Played_Cards(Player &player)
         is_first = false;
     }
     Display_Message<std::string>("\n");
+}
+
+// Show game information (played cards, conquered provinces, season and battlefield)
+void UI::Show_Game_Informations(std::vector<std::shared_ptr<Player>> &players, std::vector<std::shared_ptr<Player>> &players_turn, const int &current_player, const std::string &season, const std::string &battlefield)
+{
+    for (auto player : players)
+    {
+        Display_Played_Cards(player);
+    }
+    Display_Message<std::string>("\n");
+    for (auto player : players)
+    {
+        Display_Acquired_Provinces(player);
+    }
+    Display_Message<std::string>("\n");
+    Display_Message<std::string>("battlefield : ");
+    Display_Message<std::string>(battlefield);
+    Display_Message<std::string>("\n");
+
+    Display_Message<std::string>("season : ");
+    Display_Message<std::string>(season);
+    Display_Message<std::string>("\n");
+
+    Display_Hand(players_turn[current_player]);
+    Display_Message<std::string>("@");
+    Display_Message<std::string>(players_turn[current_player]->Get_Name());
+    Display_Message<std::string>(" : ");
+}
+
+// Show conquered provinces
+void UI::Display_Acquired_Provinces(std::shared_ptr<Player> &player)
+{
+    Display_Message<std::string>("Provinces occupied by ");
+    Display_Message<std::string>(player->Get_Name() + " : ");
+    bool is_first = true;
+    for (const auto province : player->Get_Acquired_Provinces())
+    {
+        if (!is_first)
+            Display_Message<std::string>(" - ");
+        Display_Message<std::string>(province);
+        is_first = false;
+    }
+    Display_Message<std::string>("\n");
+}
+
+// get the line and converting uppercase letters to lowercase
+std::string UI::Get_Line_Tolower()
+{
+    std::string line;
+    std::getline(std::cin, line);
+    std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+    return line;
+}
+
+// get the line and converting lowercase letters to uppercase
+std::string UI::Get_Line_Toupper()
+{
+    std::string line;
+    std::getline(std::cin, line);
+    std::transform(line.begin(), line.end(), line.begin(), ::toupper);
+    return line;
 }
