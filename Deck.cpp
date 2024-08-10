@@ -165,3 +165,21 @@ std::vector<std::shared_ptr<Card>> Deck::Get_Playing_Cards_List()
 {
     return playing_cards_list;
 }
+
+// Find the card and return it and remove it from the card deck
+std::shared_ptr<Card> Deck::Get_And_Delete_Card(const std::string &card_type)
+{
+    int index;
+    std::shared_ptr<Card> drawn_card = nullptr;
+    for (auto card : cards)
+    {
+        if (card->Get_Type() == card_type)
+        {
+            drawn_card = card;
+            cards.erase(cards.begin()+index);
+            break;
+        }
+        ++index;
+    }
+    return drawn_card;
+}

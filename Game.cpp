@@ -5,6 +5,7 @@
 #include <bits/stdc++.h>
 #include <climits>
 #include "Vexillary.hpp"
+#include <fstream>
 
 UI Game::ui; // Static member
 
@@ -12,7 +13,25 @@ UI Game::ui; // Static member
 Game::Game()
 {
     ui.Clear_Window();
-    Game_Initializer();
+    ui.Display_Message<std::string>("Do you want to start the view game or play the previous game ? \n");
+    ui.Display_Message<std::string>("Press S to start a new game and C to continue the previous game...\n");
+    bool is_operation_done = false;
+    do
+    {
+        int choice = ui.Get_Ch();
+        if (choice == 115 || choice == 83)
+        {
+            Game_Initializer();
+            game_turn_indicator = Find_Youngest_Index();
+            players[game_turn_indicator]->Set_War_Badge(true); // Giving the battle badge to the youngest player
+            is_operation_done = true;
+        }
+        else if (choice == 67 || choice == 99)
+        {
+            load();
+            is_operation_done = true;
+        }
+    } while (!is_operation_done);
     Set_Valid_Provinces();
     Set_Valid_Commands();
 }
@@ -55,9 +74,7 @@ void Game::Run_Game()
 {
     std::shared_ptr<Player> last_player_pass = nullptr;
     std::shared_ptr<Player> winner = nullptr;
-    bool is_game_over = false;
-    int game_turn_indicator = Find_Youngest_Index();
-    players[game_turn_indicator]->Set_War_Badge(true); // Giving the battle badge to the youngest player
+
     while (true)
     {
         Provinces_War_Initializer(); // Choosing the battlefield and...
@@ -78,7 +95,7 @@ void Game::Run_Game()
             // Displaying game information and playing the game by the player
             ui.Show_Game_Informations(players, players_turn, game_turn_indicator, Get_Season(), Get_Battlefield());
             Play_Turn(game_turn_indicator);
-
+            Save(game_turn_indicator, last_player_pass);
             // Creating the order of players to play clockwise
             if (game_turn_indicator + 1 >= players_turn.size() || game_turn_indicator < 0)
             {
@@ -90,7 +107,7 @@ void Game::Run_Game()
             }
 
             // When the player has no cards to play, he is removed from that round
-            if (players_turn[game_turn_indicator]->Get_hand().size() == 0 || players_turn.size() > 0)
+            if (players_turn[game_turn_indicator]->Get_hand().size() == 0 && players_turn.size() > 0)
             {
                 players_turn.erase(players_turn.begin() + game_turn_indicator);
                 game_turn_indicator--;
@@ -108,19 +125,14 @@ void Game::Run_Game()
         {
             if (Check_Game_Victory(player))
             {
-                is_game_over = true;
                 winner = player;
-                break;
+                // Display who is the winner
+                ui.Display_Message<std::string>(winner->Get_Name());
+                ui.Display_Message<std::string>(" Win the Game !");
+                exit;
             }
         }
-        if (is_game_over)
-        {
-            break;
-        }
     }
-    // Display who is the winner
-    ui.Display_Message<std::string>(winner->Get_Name());
-    ui.Display_Message<std::string>(" Win the Game !");
 }
 
 // Show the description of the cards
@@ -687,7 +699,7 @@ void Game::Provinces_War_Initializer()
     // First, we find the player who has the peace symbol
     for (auto player : players)
     {
-        //He will be asked if he wants to use it or not
+        // He will be asked if he wants to use it or not
         if (player->Get_Peace_Sign() == true)
         {
             ui.Clear_Window();
@@ -720,7 +732,7 @@ void Game::Provinces_War_Initializer()
                             {
                                 it.second.Set_Peace_Sign(false);
                             }
-                            game_map.Set_Peace_Sign(choice , true);
+                            game_map.Set_Peace_Sign(choice, true);
                             is_operation2_done = true;
                         }
                     } while (!is_operation2_done);
@@ -760,7 +772,7 @@ void Game::Provinces_War_Initializer()
                 // If the selected province has a peace symbol, it will ask the user to re-enter
                 else if (game_map.Get_Peace_Sign(choice))
                 {
-                    ui.Display_Message<std::string>("You cannot choose " + choice + " province for war, the sign of peace is located in this province !\n" );
+                    ui.Display_Message<std::string>("You cannot choose " + choice + " province for war, the sign of peace is located in this province !\n");
                     ui.Display_Message<std::string>("Choose another province : ");
                     is_operation_done = false;
                 }
@@ -829,4 +841,194 @@ void Game::Delete_Valid_Provinces(const std::string &choice)
         ++index;
     }
     valid_provinces.erase(valid_provinces.begin() + index);
+}
+
+void Game::Save(const int &game_turn_indicator, std::shared_ptr<Player> &last_player_pass)
+{
+    // time(0)
+    std::string s = "game_data" + std::to_string(1) + ".txt";
+    std::ofstream out(s, std::ios ::out);
+    std::string temp_str = "none";
+    for (auto it : game_map.Get_Provinces())
+    {
+        if (it.second.Get_Peace_Sign() == true)
+        {
+            temp_str = it.second.Get_Name();
+            break;
+        }
+    }
+    out << temp_str << std::endl;
+    out << season << std::endl;
+    out << battlefield << std::endl;
+    out << game_turn_indicator << std::endl;
+    out << players_turn.size() << std::endl;
+    out << players.size() << std::endl;
+    for (auto player : players_turn)
+    {
+        out << player->Get_Name() << std::endl;
+    }
+    for (auto player : players)
+    {
+        out << player->Get_Name() << std::endl;
+        out << player->Get_Age() << std::endl;
+        out << player->Get_Color() << std::endl;
+        for (auto card : player->Get_hand())
+        {
+            out << card->Get_Type() << " ";
+        }
+        out << " *\n";
+        for (auto card : player->Get_played_crads())
+        {
+            out << card->Get_Type() << " ";
+        }
+        out << " *\n";
+        for (auto province : player->Get_Acquired_Provinces())
+        {
+            out << province << " ";
+        }
+        out << " *\n";
+        out << player->Get_Peace_Sign() << std::endl;
+        out << player->Get_War_Badge() << std::endl;
+    }
+    out << last_player_pass->Get_Name() << std::endl;
+
+    std::ofstream out_history("History.txt", std::ios ::out | std::ios ::app);
+    out_history << s << std::endl;
+}
+
+void Game::load()
+{
+    std::string game_file_name;
+    std::ifstream in_history;
+    in_history.open("History.txt");
+    if (!in_history.is_open()) // If there is no appropriate error file, it will be displayed
+    {
+        ui.Display_Error("Error opening file !");
+    }
+    else
+    {
+        in_history >> game_file_name;
+    }
+
+    std::ifstream in;
+    in.open(game_file_name);
+    if (!in.is_open()) // If there is no appropriate error file, it will be displayed
+    {
+        ui.Display_Error("Error opening file !");
+    }
+
+    // Reading the name of the province where the sign of peace is located and applying it to the game
+    std::string province;
+    in >> province;
+    for (auto it : game_map.Get_Provinces())
+    {
+        if (it.second.Get_Name() == province)
+        {
+            it.second.Set_Peace_Sign(true);
+            break;
+        }
+    }
+
+    // Reading the season from the file and setting the game season
+    std::string season;
+    in.ignore();
+    std::getline(in, season);
+    Set_Season(season);
+
+    // Reading the battlefield from the file and setting the battlefield of the game
+    std::string battlefield;
+    std::getline(in, battlefield);
+    Set_Battlefield(battlefield);
+
+    // Reading the game game_turn_indicator from the file and applying it to the game
+    int game_turn_indicator;
+    in >> game_turn_indicator;
+    this->game_turn_indicator = game_turn_indicator;
+
+    // Read the number of players in the entire game and in this round
+    int number_of_player, number_of_player_in_turn;
+    in >> number_of_player_in_turn;
+    in >> number_of_player;
+
+    std::string name;
+    std::vector<std::string> players_names_list;
+    in.ignore();
+    for (size_t i = 0; i < number_of_player_in_turn; i++)
+    {
+        std::getline(in, name);
+        players_names_list.push_back(name);
+    }
+
+    // Reading the names of the players of this round and adding their names to a vector
+    for (size_t i = 0; i < number_of_player; i++)
+    {
+        // Read each player's information and create it
+        std::string name, color;
+        int age;
+        std::getline(in, name);
+        in >> age;
+        in.ignore();
+        std::getline(in, color);
+        std::shared_ptr<Player> temp_player = std::make_shared<Player>(name, age, color);
+
+        std::string card;
+        while (card != "*")
+        {
+            in >> card;
+            if (card != "*")
+            {
+                temp_player->Add_Card(game_deck.Get_And_Delete_Card(card));
+            }
+        }
+
+        card = "";
+        while (card != "*")
+        {
+            in >> card;
+            if (card != "*")
+            {
+                temp_player->Add_Card_To_Played_Cards(game_deck.Get_And_Delete_Card(card));
+            }
+        }
+
+        std::string province;
+        while (province != "*")
+        {
+            in >> province;
+            if (province != "*")
+            {
+                game_map.Set_Province_Owner(province, temp_player);
+            }
+        }
+
+        bool peace_sign;
+        in >> peace_sign;
+        temp_player->Set_Peace_Sign(peace_sign);
+
+        bool war_badge;
+        in >> war_badge;
+        temp_player->Set_War_Badge(war_badge);
+        in.ignore();
+        players.push_back(temp_player);
+
+        for (size_t j = 0; j < number_of_player_in_turn; j++)
+        {
+            if (players_names_list[j] == name)
+            {
+                players_turn.push_back(temp_player);
+                break;
+            }
+        }
+    }
+    std::shared_ptr<Player> last_player_pass = nullptr;
+    std::string last_player_pass_name;
+    in >> last_player_pass_name;
+    for (auto player : players)
+    {
+        if (player->Get_Name() == last_player_pass_name)
+        {
+            last_player_pass = player;
+            break;
+        }
+    }
 }

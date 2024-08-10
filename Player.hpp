@@ -26,8 +26,9 @@ public:
     void Set_Score(const int &);                                       // Set the value of the score with the input parameter
     void burning_Hand(std::vector<std::shared_ptr<Card>> &);           // Clear cards in hand of player
     void burning_Played_Cards();                                       // Clear played card of player
-    bool Get_Peace_Sign();                                              // Returns whether the player has a peace sign or not
-    void Set_Peace_Sign(const bool &);                                  // Set player have peace sign or not
+    bool Get_Peace_Sign();                                             // Returns whether the player has a peace sign or not
+    void Set_Peace_Sign(const bool &);                                 // Set player have peace sign or not
+    void Add_Card_To_Played_Cards(std::shared_ptr<Card>);              // Adding cards to the player's played cards
 
 private:
     std::string name;

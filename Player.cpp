@@ -133,3 +133,9 @@ void Player::Set_Peace_Sign(const bool &peace_sign)
 {
     this->peace_sign = peace_sign;
 }
+
+// Adding cards to the player's played cards
+void Player::Add_Card_To_Played_Cards(std::shared_ptr<Card> card)
+{
+    played_crads.push_back(card);
+}
