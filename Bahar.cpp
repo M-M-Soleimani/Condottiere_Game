@@ -13,9 +13,12 @@ std::string Bahar::perform_Action(std::vector<std::shared_ptr<Player>> &players)
     {
         for (auto card : player->Get_played_crads())
         {
-            if (card->Get_Score() > max_score)
+            if (card->Get_Color() == Card::Color::Yellow || card->Get_Type() == "shah_dokht")
             {
-                max_score = card->Get_Score();
+                if (card->Get_Score() > max_score)
+                {
+                    max_score = card->Get_Score();
+                }
             }
         }
     }
@@ -24,9 +27,12 @@ std::string Bahar::perform_Action(std::vector<std::shared_ptr<Player>> &players)
     {
         for (auto card : player->Get_played_crads())
         {
-            if (card->Get_Score() == max_score)
+            if (card->Get_Color() == Card::Color::Yellow || card->Get_Type() == "shah_dokht")
             {
-                card->Set_Score(card->Get_Score() + 3);
+                if (card->Get_Score() == max_score)
+                {
+                    card->Set_Score(card->Get_Score() + 3);
+                }
             }
         }
     }
