@@ -4,6 +4,7 @@
 #include <ctime>
 #include <bits/stdc++.h>
 #include <climits>
+#include "Vexillary.hpp"
 
 UI Game::ui; // Static member
 
@@ -71,7 +72,9 @@ void Game::Run_Game()
                 character = ui.Get_Ch();
             } while (character != 13);
             ui.Clear_Window();
-
+            
+            // Specify the last player in the game
+            last_player_pass = players_turn[game_turn_indicator];
             // Displaying game information and playing the game by the player
             ui.Show_Game_Informations(players, players_turn, game_turn_indicator, Get_Season(), Get_Battlefield());
             Play_Turn(game_turn_indicator);
@@ -91,12 +94,6 @@ void Game::Run_Game()
             {
                 players_turn.erase(players_turn.begin() + game_turn_indicator);
                 game_turn_indicator--;
-            }
-
-            // Specify the last player in the game
-            if (players_turn.size() == 1)
-            {
-                last_player_pass = players_turn[0];
             }
         }
         Check_Province_Winner(last_player_pass); // Find the victorious player of the battlefield province
@@ -364,6 +361,10 @@ void Game::Play_Turn(int &game_turn_indicator)
                         {
                             Set_Season(card->Get_Type());
                         }
+                        else if (card->Get_Type() == "vexillary")
+                        {
+                            card->perform_Action(players_turn);
+                        }
                         played_cards.push_back(players_turn[game_turn_indicator]->Play_Card(choice));
                         is_operation_done = true;
                         break;
@@ -398,6 +399,7 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("zemestan");
     valid_commands.push_back("shah_dokht");
     valid_commands.push_back("tabl_zan");
+    valid_commands.push_back("vexillary");
     valid_commands.push_back("pass");
     valid_commands.push_back("help");
     valid_commands.push_back("help 1");
@@ -412,6 +414,8 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("help zemestan");
     valid_commands.push_back("help shah_dokht");
     valid_commands.push_back("help tabl_zan");
+    valid_commands.push_back("help vexillary");
+
 }
 
 // Calculation of each player's points with special rules and procedures
