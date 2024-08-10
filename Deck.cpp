@@ -11,6 +11,7 @@
 #include "Shah_dokht.hpp"
 #include "Matarsak.hpp"
 #include "Vexillary.hpp"
+#include "Heroine.hpp"
 
 // Constructor to create an instance of class Deck
 Deck::Deck()
@@ -137,6 +138,13 @@ void Deck::Deck_Initializer()
     for (size_t i = 0; i < 3; ++i)
     {
         temp = std::make_shared<Vexillary>();
+        cards.push_back(temp);
+    }
+    playing_cards_list.push_back(temp);
+
+    for (size_t i = 0; i < 12; ++i)
+    {
+        temp = std::make_shared<Heroine>();
         cards.push_back(temp);
     }
     playing_cards_list.push_back(temp);

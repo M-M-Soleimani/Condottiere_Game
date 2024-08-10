@@ -349,7 +349,7 @@ void Game::Play_Turn(int &game_turn_indicator)
                 {
                     if (choice == card->Get_Type())
                     {
-                        if (card->Get_Color() == Card::Color::Yellow || card->Get_Type() == "shah_dokht")
+                        if (card->Get_Color() == Card::Color::Yellow || card->Get_Type() == "shah_dokht" || card->Get_Type() == "heroine")
                         {
                             card->perform_Action();
                         }
@@ -400,6 +400,7 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("shah_dokht");
     valid_commands.push_back("tabl_zan");
     valid_commands.push_back("vexillary");
+    valid_commands.push_back("heroine");
     valid_commands.push_back("pass");
     valid_commands.push_back("help");
     valid_commands.push_back("help 1");
@@ -415,6 +416,7 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("help shah_dokht");
     valid_commands.push_back("help tabl_zan");
     valid_commands.push_back("help vexillary");
+    valid_commands.push_back("help heroine");
 
 }
 
@@ -475,22 +477,22 @@ void Game::Check_Province_Winner(std::shared_ptr<Player> &last_player_pass)
     }
     // The highest score is determined
     int max_score = 0;
-    for (auto it : players)
+    for (auto player : players)
     {
-        if (it->Get_Score() > max_score)
+        if (player->Get_Score() > max_score)
         {
-            max_score = it->Get_Score();
+            max_score = player->Get_Score();
         }
     }
     // If several people have won the most points at the same time,
     // no one will win the province and the battle badge will go to the last person who was in the game
     std::shared_ptr<Player> winner = nullptr;
     int max_score_players_counter = 0;
-    for (auto it : players)
+    for (auto player : players)
     {
-        if (it->Get_Score() == max_score)
+        if (player->Get_Score() == max_score)
         {
-            winner = it;
+            winner = player;
             max_score_players_counter++;
         }
     }
@@ -503,6 +505,47 @@ void Game::Check_Province_Winner(std::shared_ptr<Player> &last_player_pass)
     else
     {
         last_player_pass->Set_War_Badge(true);
+    }
+
+    // The number of heroine cards played by the players is counted and the highest value is found, and the number of cards played by the user is added to the vector.
+    std::vector<int> heroine_card_played_counter_list;
+    int heroine_card_played_counter = 0;
+    int max_heroine_card_played = 0;
+    for (auto player : players)
+    {
+        heroine_card_played_counter = 0;
+        for (auto card : player->Get_played_crads())
+        {
+            if (card->Get_Type() == "heroine")
+            {
+                ++heroine_card_played_counter;
+            }
+        }
+        heroine_card_played_counter_list.push_back(heroine_card_played_counter);
+        if (heroine_card_played_counter > max_heroine_card_played)
+        {
+            max_heroine_card_played = heroine_card_played_counter;
+        }
+    }
+    
+    // The player or players with the most played heroine cards are counted, and if there was only one player, the battle token will be given to him
+    std::shared_ptr<Player>player_get_war_badge = nullptr;
+    int players_played_max_number_heroine_card = 0;
+    int index = 0;
+    for (auto heroine_card_played_number : heroine_card_played_counter_list)
+    {
+        if (heroine_card_played_number == max_heroine_card_played)
+        {
+            ++players_played_max_number_heroine_card;
+            player_get_war_badge = players[index];
+        }
+        ++index;
+    }
+    if (players_played_max_number_heroine_card == 1)
+    {
+        player_get_war_badge->Set_War_Badge(true);
+        winner->Set_War_Badge(false);
+        last_player_pass->Set_War_Badge(false);
     }
 }
 
