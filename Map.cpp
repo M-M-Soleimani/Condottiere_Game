@@ -112,7 +112,7 @@ void Map::Map_Initializer()
     Add_Province((int)Map::province::CALINE, Province("CALINE"));
     Set_Adjacent_Provinces((int)Map::province::CALINE, {(int)Map::province::BELLA, (int)Map::province::ENNA, (int)Map::province::BORGE, (int)Map::province::PLADACI});
 
-    Add_Province((int)Map::province::ENNA, Province("ENNA"));
+    Add_Province((int)Map::province::LIA, Province("ENNA"));
     Set_Adjacent_Provinces((int)Map::province::ENNA, {(int)Map::province::CALINE, (int)Map::province::ATELA, (int)Map::province::DIMASE, (int)Map::province::BORGE});
 
     Add_Province((int)Map::province::ATELA, Province("ATELA"));
@@ -142,7 +142,7 @@ void Map::Map_Initializer()
     Add_Province((int)Map::province::ARMENTO, Province("ARMENTO"));
     Set_Adjacent_Provinces((int)Map::province::ARMENTO, {(int)Map::province::LIA, (int)Map::province::OLIVADI, (int)Map::province::MORINA, (int)Map::province::TALMONE});
 
-    Add_Province((int)Map::province::LIA, Province("LIA"));
+    Add_Province((int)Map::province::ENNA, Province("LIA"));
     Set_Adjacent_Provinces((int)Map::province::LIA, {(int)Map::province::ARMENTO, (int)Map::province::OLIVADI});
 
     Add_Province((int)Map::province::ELINA, Province("ELINA"));
