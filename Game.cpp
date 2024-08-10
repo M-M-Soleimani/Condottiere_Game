@@ -24,8 +24,8 @@ void Game::Game_Initializer()
 {
     int number_of_players_turn = ui.Get_Number_Of_Player();
 
-    ui.Get_Player_Informations(players, number_of_players_turn); // Get the information of each player 
-    Dealing(); // Dealing to each player
+    ui.Get_Player_Informations(players, number_of_players_turn); // Get the information of each player
+    Dealing();                                                   // Dealing to each player
     for (size_t i = 0; i < number_of_players_turn; ++i)
     {
         // Show each player's hand to it
@@ -73,9 +73,9 @@ void Game::Run_Game()
             ui.Clear_Window();
 
             // Displaying game information and playing the game by the player
-            ui.Show_Game_Informations(players,players_turn, game_turn_indicator, Get_Season(), Get_Battlefield());
+            ui.Show_Game_Informations(players, players_turn, game_turn_indicator, Get_Season(), Get_Battlefield());
             Play_Turn(game_turn_indicator);
-            
+
             // Creating the order of players to play clockwise
             if (game_turn_indicator + 1 >= players_turn.size() || game_turn_indicator < 0)
             {
@@ -329,7 +329,7 @@ void Game::Play_Turn(int &game_turn_indicator)
                     character = ui.Get_Ch();
                 } while (character != 27);
                 ui.Clear_Window();
-                ui.Show_Game_Informations(players,players_turn, game_turn_indicator, Get_Season(), Get_Battlefield());
+                ui.Show_Game_Informations(players, players_turn, game_turn_indicator, Get_Season(), Get_Battlefield());
                 is_operation_done = true;
             }
             else if (sub_choice == "help ")
@@ -343,7 +343,7 @@ void Game::Play_Turn(int &game_turn_indicator)
                     character = ui.Get_Ch();
                 } while (character != 27);
                 ui.Clear_Window();
-                ui.Show_Game_Informations(players,players_turn, game_turn_indicator, Get_Season(), Get_Battlefield());
+                ui.Show_Game_Informations(players, players_turn, game_turn_indicator, Get_Season(), Get_Battlefield());
                 is_operation_done = true;
             }
             else
@@ -427,7 +427,7 @@ void Game::Calculate_player_score(std::shared_ptr<Player> &player)
             break;
         }
     }
-    
+
     // If the game season is zemestan, the zemestan function is called
     if (Get_Season() == "zemestan")
     {
@@ -586,7 +586,7 @@ void Game::Refection()
             }
         }
     }
-    //If all players do not have cards, cards are dealt again
+    // If all players do not have cards, cards are dealt again
     if (player_with_no_soldier_cards_number == players.size())
     {
         Dealing();
@@ -614,6 +614,11 @@ void Game::Refection()
             }
         }
         Dealing();
+    }
+    // For each game round, it burns the played cards after completion
+    for (auto player : players)
+    {
+        player->burning_Played_Cards();
     }
 }
 
@@ -694,7 +699,7 @@ bool Game::Is_Valid_Province(const std::string &choice)
 void Game::Delete_Valid_Provinces(const std::string &choice)
 {
     int index = 0;
-    for(auto province : valid_provinces)
+    for (auto province : valid_provinces)
     {
         if (province == choice)
         {
@@ -702,5 +707,5 @@ void Game::Delete_Valid_Provinces(const std::string &choice)
         }
         ++index;
     }
-    valid_provinces.erase(valid_provinces.begin()+index);
+    valid_provinces.erase(valid_provinces.begin() + index);
 }
