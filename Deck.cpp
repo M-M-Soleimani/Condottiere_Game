@@ -14,6 +14,7 @@
 #include "Heroine.hpp"
 #include "Elder.hpp"
 #include "White_Seals.hpp"
+#include "Rakhesh_Safid.hpp"
 
 // Constructor to create an instance of class Deck
 Deck::Deck()
@@ -161,6 +162,13 @@ void Deck::Deck_Initializer()
     for (size_t i = 0; i < 6; ++i)
     {
         temp = std::make_shared<White_Seals>();
+        cards.push_back(temp);
+    }
+    playing_cards_list.push_back(temp);
+
+    for (size_t i = 0; i < 2; ++i)
+    {
+        temp = std::make_shared<Rakhesh_Safid>();
         cards.push_back(temp);
     }
     playing_cards_list.push_back(temp);

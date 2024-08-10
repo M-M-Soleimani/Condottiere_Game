@@ -392,7 +392,11 @@ void Game::Play_Turn(int &game_turn_indicator)
                         {
                             card->perform_Action(players);
                         }
-                        
+                        else if (card->Get_Type() == "rakhesh_safid")
+                        {
+                            card->perform_Action(players_turn);
+                            players_turn[game_turn_indicator]->Set_Play_Rakhesh_Safid(true);
+                        }
                         played_cards.push_back(players_turn[game_turn_indicator]->Play_Card(choice));
                         is_operation_done = true;
                         break;
@@ -431,6 +435,7 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("heroine");
     valid_commands.push_back("elder");
     valid_commands.push_back("white_seals");
+    valid_commands.push_back("rakhesh_safid");
     valid_commands.push_back("pass");
     valid_commands.push_back("help");
     valid_commands.push_back("help 1");
@@ -449,6 +454,7 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("help heroine");
     valid_commands.push_back("help elder");
     valid_commands.push_back("help white_seals");
+    valid_commands.push_back("help rakhesh_safid");
 }
 
 // Calculation of each player's points with special rules and procedures
@@ -509,10 +515,20 @@ void Game::Calculate_player_score(std::shared_ptr<Player> &player)
 // Checking who is the conqueror of the province and who gets the battle badge
 void Game::Check_Province_Winner(std::shared_ptr<Player> &last_player_pass)
 {
+    std::shared_ptr<Player> winner = nullptr;
     // The score of all players is calculated
     for (auto it : players)
     {
         Calculate_player_score(it);
+        if (it->Get_Play_Rakhesh_Safid())
+        {
+            winner = it;
+            winner->Set_War_Badge(true);
+            game_map.Set_Province_Owner(Get_Battlefield(), winner);
+            Delete_Valid_Provinces(Get_Battlefield());
+            winner->Set_Play_Rakhesh_Safid(false);
+            return ;
+        }
     }
     // The highest score is determined
     int max_score = 0;
@@ -525,7 +541,6 @@ void Game::Check_Province_Winner(std::shared_ptr<Player> &last_player_pass)
     }
     // If several people have won the most points at the same time,
     // no one will win the province and the battle badge will go to the last person who was in the game
-    std::shared_ptr<Player> winner = nullptr;
     int max_score_players_counter = 0;
     for (auto player : players)
     {

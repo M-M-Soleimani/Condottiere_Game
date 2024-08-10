@@ -139,3 +139,15 @@ void Player::Add_Card_To_Played_Cards(std::shared_ptr<Card> card)
 {
     played_crads.push_back(card);
 }
+
+// Returns whether the player played rakhesh safid or not
+bool Player::Get_Play_Rakhesh_Safid()
+{
+    return play_rakhesh_safid;
+}
+
+// Set player have played rakhesh safid sign or not
+void Player::Set_Play_Rakhesh_Safid(const bool &play_rakhesh_safid)
+{
+    this->play_rakhesh_safid = play_rakhesh_safid;
+}

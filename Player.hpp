@@ -29,6 +29,8 @@ public:
     bool Get_Peace_Sign();                                             // Returns whether the player has a peace sign or not
     void Set_Peace_Sign(const bool &);                                 // Set player have peace sign or not
     void Add_Card_To_Played_Cards(std::shared_ptr<Card>);              // Adding cards to the player's played cards
+    bool Get_Play_Rakhesh_Safid();                                     // Returns whether the player played rakhesh safid or not
+    void Set_Play_Rakhesh_Safid(const bool &);                         // Set player have played rakhesh safid sign or not
 
 private:
     std::string name;
@@ -40,6 +42,7 @@ private:
     bool war_badge = false;
     bool peace_sign = false;
     int score = 0;
+    bool play_rakhesh_safid = false;
 };
 
 #endif
