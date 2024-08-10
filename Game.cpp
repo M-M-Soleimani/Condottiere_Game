@@ -388,7 +388,11 @@ void Game::Play_Turn(int &game_turn_indicator)
                             card->perform_Action(players);
                             players_turn[game_turn_indicator]->Set_Peace_Sign(true);
                         }
-
+                        else if (card->Get_Type() == "white_seals")
+                        {
+                            card->perform_Action(players);
+                        }
+                        
                         played_cards.push_back(players_turn[game_turn_indicator]->Play_Card(choice));
                         is_operation_done = true;
                         break;
@@ -426,6 +430,7 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("vexillary");
     valid_commands.push_back("heroine");
     valid_commands.push_back("elder");
+    valid_commands.push_back("white_seals");
     valid_commands.push_back("pass");
     valid_commands.push_back("help");
     valid_commands.push_back("help 1");
@@ -443,6 +448,7 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("help vexillary");
     valid_commands.push_back("help heroine");
     valid_commands.push_back("help elder");
+    valid_commands.push_back("help white_seals");
 }
 
 // Calculation of each player's points with special rules and procedures

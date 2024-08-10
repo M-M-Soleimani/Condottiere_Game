@@ -13,6 +13,7 @@
 #include "Vexillary.hpp"
 #include "Heroine.hpp"
 #include "Elder.hpp"
+#include "White_Seals.hpp"
 
 // Constructor to create an instance of class Deck
 Deck::Deck()
@@ -153,6 +154,13 @@ void Deck::Deck_Initializer()
     for (size_t i = 0; i < 6; ++i)
     {
         temp = std::make_shared<Elder>();
+        cards.push_back(temp);
+    }
+    playing_cards_list.push_back(temp);
+
+    for (size_t i = 0; i < 6; ++i)
+    {
+        temp = std::make_shared<White_Seals>();
         cards.push_back(temp);
     }
     playing_cards_list.push_back(temp);
