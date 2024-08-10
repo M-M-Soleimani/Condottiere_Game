@@ -81,6 +81,10 @@ void Map::Set_Province_Owner(const std::string &origin_province_name, std::share
     {
         origin_province_number = (int)Map::province::ELINA;
     }
+    else if (origin_province_name == "MATIN")
+    {
+        origin_province_number = (int)Map::province::MATIN;
+    }
 
     provinces[origin_province_number].Set_Owner(player);
     player_provinces[player].insert(origin_province_number);
@@ -143,6 +147,9 @@ void Map::Map_Initializer()
 
     Add_Province((int)Map::province::ELINA, Province("ELINA"));
     Set_Adjacent_Provinces((int)Map::province::ELINA, {(int)Map::province::ROLLO, (int)Map::province::TALMONE});
+
+    Add_Province((int)Map::province::MATIN, Province("MATIN"));
+    Set_Adjacent_Provinces((int)Map::province::MATIN, {(int)Map::province::ATELA, (int)Map::province::DIMASE});
 }
 
 // Set province have peace sign or not
@@ -205,12 +212,16 @@ void Map::Set_Peace_Sign(const std::string &province_name, const bool &peace_sig
     {
         province_number = (int)Map::province::ELINA;
     }
+    else if (province_name == "MATIN")
+    {
+        province_number = (int)Map::province::MATIN;
+    }
 
     provinces[province_number].Set_Peace_Sign(true);
 }
 
 // Returns whether the peace sign has been placed in this province or not
-bool Map::Get_Peace_Sign(const std::string &province_name) 
+bool Map::Get_Peace_Sign(const std::string &province_name)
 {
     int province_number = -1;
     if (province_name == "BELLA")
@@ -268,6 +279,10 @@ bool Map::Get_Peace_Sign(const std::string &province_name)
     else if (province_name == "ELINA")
     {
         province_number = (int)Map::province::ELINA;
+    }
+    else if (province_name == "MATIN")
+    {
+        province_number = (int)Map::province::MATIN;
     }
 
     return provinces[province_number].Get_Peace_Sign();

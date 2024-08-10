@@ -26,7 +26,8 @@ public:
         TALMONE,
         ARMENTO,
         LIA,
-        ELINA
+        ELINA,
+        MATIN,
     };
     Map();                                                                   // The constructor of the Map class with default values
     ~Map();                                                                  // Default distractor

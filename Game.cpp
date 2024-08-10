@@ -811,6 +811,7 @@ void Game::Set_Valid_Provinces()
     valid_provinces.push_back("ARMENTO");
     valid_provinces.push_back("LIA");
     valid_provinces.push_back("ELINA");
+    valid_provinces.push_back("MATIN");
 }
 
 // Checking whether the input string is a valid province or not
