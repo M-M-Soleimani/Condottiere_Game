@@ -22,8 +22,9 @@ std::string White_Seals::perform_Action(std::shared_ptr<Player> &player)
 // Override and overloaded function to apply card abilities to the game
 std::string White_Seals::perform_Action(std::vector<std::shared_ptr<Player>> & players)
 {
-    for(auto player : players)
+    for(auto& player : players)
     {
         player->burning_Played_Cards();
     }
+    return this->Get_Type();
 }
