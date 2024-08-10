@@ -1,5 +1,6 @@
 #include "Zemestan.hpp"
 #include "Player.hpp"
+#include <cmath>
 
 // Constructor to create an instance of class Zemestan
 Zemestan::Zemestan() : Card::Card("zemestan", 0, "zemestan: When the zemestan card is played, the number of soldier cards (yellow) is all\nPlayers equals 1. The effect of zemestan lasts as long as it lasts.\nFor example, if a player has 1 soldier, 4 soldiers, 10 and 1 in his army\nSoldier has 2. After the zemestan is played, the total number of his army is\n16th place will be equal to 3.\n", Color::Purple) {}
@@ -11,7 +12,7 @@ std::string Zemestan::perform_Action(std::vector<std::shared_ptr<Player>> &playe
     {
         for (auto &card : player->Get_played_crads())
         {
-            card->Set_Score(1);
+            card->Set_Score(floor(card->Get_Value()/2));
         }
     }
 
