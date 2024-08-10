@@ -72,7 +72,7 @@ void Game::Run_Game()
                 character = ui.Get_Ch();
             } while (character != 13);
             ui.Clear_Window();
-            
+
             // Specify the last player in the game
             last_player_pass = players_turn[game_turn_indicator];
             // Displaying game information and playing the game by the player
@@ -90,7 +90,7 @@ void Game::Run_Game()
             }
 
             // When the player has no cards to play, he is removed from that round
-            if (players_turn[game_turn_indicator]->Get_hand().size() == 0)
+            if (players_turn[game_turn_indicator]->Get_hand().size() == 0 || players_turn.size() > 0)
             {
                 players_turn.erase(players_turn.begin() + game_turn_indicator);
                 game_turn_indicator--;
@@ -365,6 +365,17 @@ void Game::Play_Turn(int &game_turn_indicator)
                         {
                             card->perform_Action(players_turn);
                         }
+                        // If the elder is played, the peace sign of all players will be taken from them and the player who is playing the elder will be given a white beard
+                        else if (card->Get_Type() == "elder")
+                        {
+                            for (auto player : players)
+                            {
+                                player->Set_Peace_Sign(false);
+                            }
+                            card->perform_Action(players);
+                            players_turn[game_turn_indicator]->Set_Peace_Sign(true);
+                        }
+
                         played_cards.push_back(players_turn[game_turn_indicator]->Play_Card(choice));
                         is_operation_done = true;
                         break;
@@ -401,6 +412,7 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("tabl_zan");
     valid_commands.push_back("vexillary");
     valid_commands.push_back("heroine");
+    valid_commands.push_back("elder");
     valid_commands.push_back("pass");
     valid_commands.push_back("help");
     valid_commands.push_back("help 1");
@@ -417,7 +429,7 @@ void Game::Set_Valid_Commands()
     valid_commands.push_back("help tabl_zan");
     valid_commands.push_back("help vexillary");
     valid_commands.push_back("help heroine");
-
+    valid_commands.push_back("help elder");
 }
 
 // Calculation of each player's points with special rules and procedures
@@ -459,7 +471,7 @@ void Game::Calculate_player_score(std::shared_ptr<Player> &player)
     int total_score = 0;
     for (auto card : player->Get_played_crads())
     {
-        if (card->Get_Color() == Card::Color::Yellow || card->Get_Type() == "shah_dokht")
+        if (card->Get_Color() == Card::Color::Yellow || card->Get_Type() == "shah_dokht" || card->Get_Type() == "heroine")
         {
             total_score += card->Get_Score();
         }
@@ -527,9 +539,9 @@ void Game::Check_Province_Winner(std::shared_ptr<Player> &last_player_pass)
             max_heroine_card_played = heroine_card_played_counter;
         }
     }
-    
+
     // The player or players with the most played heroine cards are counted, and if there was only one player, the battle token will be given to him
-    std::shared_ptr<Player>player_get_war_badge = nullptr;
+    std::shared_ptr<Player> player_get_war_badge = nullptr;
     int players_played_max_number_heroine_card = 0;
     int index = 0;
     for (auto heroine_card_played_number : heroine_card_played_counter_list)
@@ -543,9 +555,9 @@ void Game::Check_Province_Winner(std::shared_ptr<Player> &last_player_pass)
     }
     if (players_played_max_number_heroine_card == 1)
     {
-        player_get_war_badge->Set_War_Badge(true);
         winner->Set_War_Badge(false);
         last_player_pass->Set_War_Badge(false);
+        player_get_war_badge->Set_War_Badge(true);
     }
 }
 
@@ -672,12 +684,65 @@ void Game::Refection()
 // Choosing the battlefield and...
 void Game::Provinces_War_Initializer()
 {
-    // Find someone with a battle badge to mark the battlefield
-    for (auto it : players)
+    // First, we find the player who has the peace symbol
+    for (auto player : players)
     {
-        if (it->Get_War_Badge() == true)
+        //He will be asked if he wants to use it or not
+        if (player->Get_Peace_Sign() == true)
         {
-            ui.Display_Message<std::string>(it->Get_Name());
+            ui.Clear_Window();
+            ui.Display_Message<std::string>(player->Get_Name());
+            ui.Display_Message<std::string>(" , Do you want to use the peace sign ?");
+            ui.Display_Message<std::string>("(y)es or (n)o ?\n");
+            bool is_operation_done = false;
+            do
+            {
+                int choice = ui.Get_Ch();
+                if (choice == 121 || choice == 89)
+                {
+                    system("start ./map.png"); // Open the game map image
+                    ui.Display_Message<std::string>("The desired province to place the peace sign : ");
+                    bool is_operation2_done = false;
+                    // Select the desired province to place the peace sign
+                    do
+                    {
+                        // Imports a province
+                        std::string choice = ui.Get_Line_Toupper();
+                        // If it is invalid, the automatic correction function is called
+                        if (!Is_Valid_Province(choice))
+                        {
+                            Autocorrect(choice);
+                        }
+                        else
+                        {
+                            // All the cities' peace badges are removed and the province that the player has chosen becomes the owner of the peace badge
+                            for (auto it : game_map.Get_Provinces())
+                            {
+                                it.second.Set_Peace_Sign(false);
+                            }
+                            game_map.Set_Peace_Sign(choice , true);
+                            is_operation2_done = true;
+                        }
+                    } while (!is_operation2_done);
+                    player->Set_Peace_Sign(false);
+                    is_operation_done = true;
+                }
+                else if (choice == 110 || choice == 78)
+                {
+                    player->Set_Peace_Sign(false);
+                    is_operation_done = true;
+                }
+            } while (!is_operation_done);
+            break;
+        }
+    }
+
+    // Find someone with a battle badge to mark the battlefield
+    for (auto player : players)
+    {
+        if (player->Get_War_Badge() == true)
+        {
+            ui.Display_Message<std::string>(player->Get_Name());
             ui.Display_Message<std::string>(" Enter the desired province for the war : ");
             system("start ./map.png"); // Open the game map image
             std::string choice;
@@ -686,9 +751,18 @@ void Game::Provinces_War_Initializer()
             do
             {
                 choice = ui.Get_Line_Toupper();
+                // If it is invalid, the automatic correction function is called
                 if (!Is_Valid_Province(choice))
                 {
                     Autocorrect(choice);
+                    is_operation_done = false;
+                }
+                // If the selected province has a peace symbol, it will ask the user to re-enter
+                else if (game_map.Get_Peace_Sign(choice))
+                {
+                    ui.Display_Message<std::string>("You cannot choose " + choice + " province for war, the sign of peace is located in this province !\n" );
+                    ui.Display_Message<std::string>("Choose another province : ");
+                    is_operation_done = false;
                 }
                 else
                 {
@@ -697,7 +771,7 @@ void Game::Provinces_War_Initializer()
             } while (!is_operation_done);
 
             Set_Battlefield(choice);
-            it->Set_War_Badge(false);
+            player->Set_War_Badge(false);
             break;
         }
     }

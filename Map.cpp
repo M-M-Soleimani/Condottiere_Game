@@ -144,3 +144,131 @@ void Map::Map_Initializer()
     Add_Province((int)Map::province::ELINA, Province("ELINA"));
     Set_Adjacent_Provinces((int)Map::province::ELINA, {(int)Map::province::ROLLO, (int)Map::province::TALMONE});
 }
+
+// Set province have peace sign or not
+void Map::Set_Peace_Sign(const std::string &province_name, const bool &peace_sign)
+{
+    int province_number = -1;
+    if (province_name == "BELLA")
+    {
+        province_number = (int)Map::province::BELLA;
+    }
+    else if (province_name == "CALINE")
+    {
+        province_number = (int)Map::province::CALINE;
+    }
+    else if (province_name == "ENNA")
+    {
+        province_number = (int)Map::province::ENNA;
+    }
+    else if (province_name == "ATELA")
+    {
+        province_number = (int)Map::province::ATELA;
+    }
+    else if (province_name == "PLADACI")
+    {
+        province_number = (int)Map::province::PLADACI;
+    }
+    else if (province_name == "BORGE")
+    {
+        province_number = (int)Map::province::BORGE;
+    }
+    else if (province_name == "DIMASE")
+    {
+        province_number = (int)Map::province::DIMASE;
+    }
+    else if (province_name == "MORINA")
+    {
+        province_number = (int)Map::province::MORINA;
+    }
+    else if (province_name == "OLIVADI")
+    {
+        province_number = (int)Map::province::OLIVADI;
+    }
+    else if (province_name == "ROLLO")
+    {
+        province_number = (int)Map::province::ROLLO;
+    }
+    else if (province_name == "TALMONE")
+    {
+        province_number = (int)Map::province::TALMONE;
+    }
+    else if (province_name == "ARMENTO")
+    {
+        province_number = (int)Map::province::ARMENTO;
+    }
+    else if (province_name == "LIA")
+    {
+        province_number = (int)Map::province::LIA;
+    }
+    else if (province_name == "ELINA")
+    {
+        province_number = (int)Map::province::ELINA;
+    }
+
+    provinces[province_number].Set_Peace_Sign(true);
+}
+
+// Returns whether the peace sign has been placed in this province or not
+bool Map::Get_Peace_Sign(const std::string &province_name) 
+{
+    int province_number = -1;
+    if (province_name == "BELLA")
+    {
+        province_number = (int)Map::province::BELLA;
+    }
+    else if (province_name == "CALINE")
+    {
+        province_number = (int)Map::province::CALINE;
+    }
+    else if (province_name == "ENNA")
+    {
+        province_number = (int)Map::province::ENNA;
+    }
+    else if (province_name == "ATELA")
+    {
+        province_number = (int)Map::province::ATELA;
+    }
+    else if (province_name == "PLADACI")
+    {
+        province_number = (int)Map::province::PLADACI;
+    }
+    else if (province_name == "BORGE")
+    {
+        province_number = (int)Map::province::BORGE;
+    }
+    else if (province_name == "DIMASE")
+    {
+        province_number = (int)Map::province::DIMASE;
+    }
+    else if (province_name == "MORINA")
+    {
+        province_number = (int)Map::province::MORINA;
+    }
+    else if (province_name == "OLIVADI")
+    {
+        province_number = (int)Map::province::OLIVADI;
+    }
+    else if (province_name == "ROLLO")
+    {
+        province_number = (int)Map::province::ROLLO;
+    }
+    else if (province_name == "TALMONE")
+    {
+        province_number = (int)Map::province::TALMONE;
+    }
+    else if (province_name == "ARMENTO")
+    {
+        province_number = (int)Map::province::ARMENTO;
+    }
+    else if (province_name == "LIA")
+    {
+        province_number = (int)Map::province::LIA;
+    }
+    else if (province_name == "ELINA")
+    {
+        province_number = (int)Map::province::ELINA;
+    }
+
+    return provinces[province_number].Get_Peace_Sign();
+}

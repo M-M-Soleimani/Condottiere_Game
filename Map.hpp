@@ -36,6 +36,8 @@ public:
     std::map<std::shared_ptr<Player>, std::set<int>> Get_Player_provinces(); // returning map that connects players to captured provinces
     std::map<int, Province> Get_Provinces();                                 // Returning a map that connects the name (with numerical identifier) ​​to the provinces
     void Map_Initializer();                                                  // Add provinces and adjust neighboring provinces
+    void Set_Peace_Sign(const std::string &, const bool &);                  // Set province have peace sign or not
+    bool Get_Peace_Sign(const std::string &);                                // Returns whether the peace sign has been placed in this province or not
 
 private:
     std::map<int, Province> provinces;                                 // To map players to a captured province
