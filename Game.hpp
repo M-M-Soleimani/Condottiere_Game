@@ -43,8 +43,13 @@ public:
     void Set_Valid_Provinces();                                          // set valid provinces
     bool Is_Valid_Province(const std::string &);                         // Checking whether the input string is a valid province or not
     void Delete_Valid_Provinces(const std::string &);                    // Removing the name of the province from valid provinces for war
-    void Save(const int & ,std::shared_ptr<Player> &);
+    void Save(const int &, std::shared_ptr<Player> &);
     void load();
+    void Set_Unlucky_Number(const int &);
+    int Get_Unlucky_Number() const;
+    void Set_Lucky_Number(const int &);
+    int Get_Lucky_Number() const;
+    void Set_Lucky_And_UnLucky_Number();
 
 private:
     std::vector<std::shared_ptr<Player>> players;
@@ -58,6 +63,8 @@ private:
     std::vector<std::string> valid_commands;
     std::vector<std::string> valid_provinces;
     int game_turn_indicator = 0;
+    int lucky_number = -1;
+    int unlucky_number = -1;
 };
 
 #endif

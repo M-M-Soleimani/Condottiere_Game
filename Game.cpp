@@ -77,6 +77,7 @@ void Game::Run_Game()
 
     while (true)
     {
+        Set_Lucky_And_UnLucky_Number();
         Provinces_War_Initializer(); // Choosing the battlefield and...
         while (players_turn.size() > 0)
         {
@@ -487,6 +488,14 @@ void Game::Calculate_player_score(std::shared_ptr<Player> &player)
         {
             total_score += card->Get_Score();
         }
+    }
+    if (total_score % Get_Lucky_Number() == 0)
+    {
+        total_score *= 2;
+    }
+    else if (total_score % Get_Unlucky_Number() == 0)
+    {
+        total_score = -1;
     }
     player->Set_Score(total_score);
 }
@@ -1029,6 +1038,61 @@ void Game::load()
         if (player->Get_Name() == last_player_pass_name)
         {
             last_player_pass = player;
+            break;
+        }
+    }
+}
+
+void Game::Set_Unlucky_Number(const int &unlucky_number)
+{
+    this->unlucky_number = unlucky_number;
+}
+
+int Game::Get_Unlucky_Number() const
+{
+    return unlucky_number;
+}
+
+void Game::Set_Lucky_Number(const int &lucky_number)
+{
+    this->lucky_number = lucky_number;
+}
+
+int Game::Get_Lucky_Number() const
+{
+    return lucky_number;
+}
+
+void Game::Set_Lucky_And_UnLucky_Number()
+{
+    for (auto player : players)
+    {
+        if (player->Get_War_Badge())
+        {
+            ui.Display_Message<std::string>("Enter a two-digit number as your lucky number : ");
+            int choice = 0;
+            do
+            {
+                choice = ui.Get_User_Input<int>();
+                if (choice < 10)
+                {
+                    ui.Display_Message<std::string>("Please enter a two-digit number!");
+                }
+            } while (choice < 10);
+            Set_Lucky_Number(choice);
+
+            ui.Display_Message<std::string>("Enter a two-digit number as your unlucky number : ");
+            choice = 0;
+            do
+            {
+                choice = ui.Get_User_Input<int>();
+                if (choice < 10)
+                {
+                    ui.Display_Message<std::string>("Please enter a two-digit number!");
+                }
+            } while (choice < 10);
+            Set_Unlucky_Number(choice);
+            ui.Clear_Window();
             break;
         }
     }
