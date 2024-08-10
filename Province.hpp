@@ -15,11 +15,14 @@ public:
     std::shared_ptr<Player> Get_Owner();                // Returning the owner of the province
     std::set<int> Get_Adjacent_Provinces();             // Returning the neighbors of the province
     std::string Get_Name();                             // Returning the name of the province
+    bool Get_Peace_Sign();                              // Returns whether the peace sign has been placed in this province or not
+    void Set_Peace_Sign(const bool &);                  // Set province have peace sign or not
 
 private:
     std::string name;                 // province name
     std::shared_ptr<Player> owner;    // The owner of the province
     std::set<int> adjacent_provinces; // Adjacent provinces
+    bool peace_sign = false;
 };
 
 #endif

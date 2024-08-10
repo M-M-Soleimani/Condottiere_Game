@@ -107,9 +107,9 @@ void Player::Set_Score(const int &score)
 }
 
 // Clear cards in hand of player
-void Player::burning_Hand(std::vector<std::shared_ptr<Card>> & played_cards)
+void Player::burning_Hand(std::vector<std::shared_ptr<Card>> &played_cards)
 {
-    for(auto card : hand)
+    for (auto card : hand)
     {
         played_cards.push_back(card);
     }
@@ -120,4 +120,16 @@ void Player::burning_Hand(std::vector<std::shared_ptr<Card>> & played_cards)
 void Player::burning_Played_Cards()
 {
     played_crads.clear();
+}
+
+// Returns whether the player has a peace sign or not
+bool Player::Get_Peace_Sign()
+{
+    return peace_sign;
+}
+
+// Set player have peace sign or not
+void Player::Set_Peace_Sign(const bool &peace_sign)
+{
+    this->peace_sign = peace_sign;
 }

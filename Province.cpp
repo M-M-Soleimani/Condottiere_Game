@@ -40,3 +40,15 @@ std::string Province::Get_Name()
 {
     return name;
 }
+
+// Returns whether the peace sign has been placed in this province or not
+bool Player::Get_Peace_Sign()
+{
+    return peace_sign;
+}
+
+// Set province have peace sign or not
+void Player::Set_Peace_Sign(const bool &peace_sign)
+{
+    this->peace_sign = peace_sign;
+}
